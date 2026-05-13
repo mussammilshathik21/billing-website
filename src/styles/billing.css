@@ -1,0 +1,120 @@
+/* layout */
+.billing-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* left */
+.products-section {
+  flex: 2;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+/* right */
+.bill-section {
+  flex: 1;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+/* buttons */
+table button {
+  margin: 0 3px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+table button:first-child {
+  background: #ffa502;
+}
+
+table button:last-child {
+  background: #ff4757;
+  color: white;
+}
+
+/* total */
+.bill-section h2 {
+  margin-top: 10px;
+}
+
+/* main buttons */
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.print-btn {
+  flex: 1;
+  padding: 10px;
+  background: #1e90ff;
+  color: white;
+  border-radius: 8px;
+}
+
+.pdf-btn {
+  flex: 1;
+  padding: 10px;
+  background: #2ed573;
+  color: white;
+  border-radius: 8px;
+}
+
+/* cancel */
+.cancel-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #ff6b81;
+  color: white;
+  border-radius: 8px;
+}
+
+/* 🔥 MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+
+  .billing-container {
+    flex-direction: column;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bill-section {
+    margin-top: 20px;
+  }
+
+  table th, table td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+}

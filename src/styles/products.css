@@ -1,0 +1,99 @@
+/* Container */
+.container {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Title */
+.container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2f3542;
+}
+
+/* Inputs */
+.container input {
+  width: 45%;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.container input:focus {
+  border-color: #1e90ff;
+}
+
+/* Add/Update Button */
+.container button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  background: #1e90ff;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.container button:hover {
+  background: #3742fa;
+}
+
+/* Product List */
+.container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f1f2f6;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+/* Product Name */
+.container > div span {
+  font-weight: 500;
+}
+
+/* Buttons inside list */
+.container > div button {
+  margin-left: 5px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+/* Edit Button */
+.container > div button:nth-child(2) {
+  background: #ffa502;
+}
+
+.container > div button:nth-child(2):hover {
+  background: #eccc68;
+}
+
+/* Delete Button */
+.container > div button:nth-child(3) {
+  background: #ff4757;
+}
+
+.container > div button:nth-child(3):hover {
+  background: #ff6b81;
+}
+
+/* Save Button */
+.container > button:last-child {
+  width: 100%;
+  margin-top: 20px;
+  background: #2ed573;
+}
+
+.container > button:last-child:hover {
+  background: #20bf6b;
+}

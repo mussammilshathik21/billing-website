@@ -1,0 +1,28 @@
+/* qty buttons */
+table button {
+  margin: 0 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* remove button */
+table td button:last-child {
+  background: #ff4757;
+  color: white;
+}
+
+/* cancel bill */
+.cancel-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #ff6b81;
+  color: white;
+  border-radius: 8px;
+}
+
+.cancel-btn:hover {
+  background: #ff4757;
+}
