@@ -9,19 +9,23 @@ export default function BillingPage() {
   const [products, setProducts] = useState([]);
   const [bill, setBill] = useState([]);
 
+  // LOAD PRODUCTS
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("products"));
+
     setProducts(saved && saved.length ? saved : productsData);
   }, []);
 
-  // ➕ add product
+  // ➕ ADD PRODUCT
   const addToBill = (product) => {
     const exists = bill.find((i) => i.id === product.id);
 
     if (exists) {
       setBill(
         bill.map((i) =>
-          i.id === product.id ? { ...i, qty: i.qty + 1 } : i
+          i.id === product.id
+            ? { ...i, qty: i.qty + 1 }
+            : i
         )
       );
     } else {
@@ -29,50 +33,98 @@ export default function BillingPage() {
     }
   };
 
-  // ➕➖ qty
+  // ➕ QTY
   const increaseQty = (id) => {
     setBill(
       bill.map((i) =>
-        i.id === id ? { ...i, qty: i.qty + 1 } : i
+        i.id === id
+          ? { ...i, qty: i.qty + 1 }
+          : i
       )
     );
   };
 
+  // ➖ QTY
   const decreaseQty = (id) => {
     setBill(
       bill
         .map((i) =>
-          i.id === id ? { ...i, qty: i.qty - 1 } : i
+          i.id === id
+            ? { ...i, qty: i.qty - 1 }
+            : i
         )
         .filter((i) => i.qty > 0)
     );
   };
 
-  // ❌ remove item
+  // ❌ REMOVE ITEM
   const removeItem = (id) => {
     setBill(bill.filter((i) => i.id !== id));
   };
 
-  // 🗑 cancel bill
+  // 🗑 CANCEL BILL
   const cancelBill = () => {
     if (confirm("Cancel full bill?")) {
       setBill([]);
     }
   };
 
-  // 💰 total
-  const total = bill.reduce((a, b) => a + b.price * b.qty, 0);
+  // 💰 TOTAL
+  const total = bill.reduce(
+    (a, b) => a + b.price * b.qty,
+    0
+  );
 
-  // 🖨 print
+  // 🖨 PRINT
   const handlePrint = () => {
     if (!bill.length) return alert("No items");
+
     window.print();
   };
 
-  // 📄 PDF
+  // 📄 PDF + SAVE HISTORY
   const handlePDF = () => {
     if (!bill.length) return alert("No items");
+
+    // subtotal
+    const subtotal = bill.reduce(
+      (acc, item) => acc + item.price * item.qty,
+      0
+    );
+
+    // GST
+    const gstRate = 0;
+    const gst = (subtotal * gstRate) / 100;
+
+    // final total
+    const finalTotal = subtotal + gst;
+
+    // invoice object
+    const invoice = {
+      id: Date.now(),
+      date: new Date().toLocaleString(),
+      items: bill,
+      subtotal,
+      gstRate,
+      gst,
+      total: finalTotal,
+    };
+
+    // old history
+    const oldHistory =
+      JSON.parse(localStorage.getItem("history")) || [];
+
+    // save new invoice
+    localStorage.setItem(
+      "history",
+      JSON.stringify([...oldHistory, invoice])
+    );
+
+    // generate PDF
     generateInvoice(bill);
+
+    // clear bill
+    setBill([]);
   };
 
   return (
@@ -84,7 +136,11 @@ export default function BillingPage() {
 
         <div className="product-grid">
           {products.map((p) => (
-            <ProductCard key={p.id} product={p} addToBill={addToBill} />
+            <ProductCard
+              key={p.id}
+              product={p}
+              addToBill={addToBill}
+            />
           ))}
         </div>
       </div>
@@ -109,15 +165,31 @@ export default function BillingPage() {
                 <td>{item.name}</td>
 
                 <td>
-                  <button onClick={() => decreaseQty(item.id)}>-</button>
+                  <button
+                    onClick={() => decreaseQty(item.id)}
+                  >
+                    -
+                  </button>
+
                   {item.qty}
-                  <button onClick={() => increaseQty(item.id)}>+</button>
+
+                  <button
+                    onClick={() => increaseQty(item.id)}
+                  >
+                    +
+                  </button>
                 </td>
 
-                <td>₹{item.price * item.qty}</td>
+                <td>
+                  ₹{item.price * item.qty}
+                </td>
 
                 <td>
-                  <button onClick={() => removeItem(item.id)}>❌</button>
+                  <button
+                    onClick={() => removeItem(item.id)}
+                  >
+                    ❌
+                  </button>
                 </td>
               </tr>
             ))}
@@ -128,13 +200,19 @@ export default function BillingPage() {
 
         <div className="btn-group">
 
-
-          <button className="pdf-btn" onClick={handlePDF}>
+          <button
+            className="pdf-btn"
+            onClick={handlePDF}
+          >
             Generate Invoice
           </button>
+
         </div>
 
-        <button className="cancel-btn" onClick={cancelBill}>
+        <button
+          className="cancel-btn"
+          onClick={cancelBill}
+        >
           Cancel Bill
         </button>
       </div>
