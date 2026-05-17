@@ -33,7 +33,7 @@ export const generateInvoice = (bill = []) => {
 
   y += 4;
 
-  doc.text("Ph: 8870394549", 40, y, { align: "center" });
+  doc.text("Ph: 000000000000", 40, y, { align: "center" });
 
   y += 5;
 
@@ -151,9 +151,12 @@ export const generateInvoice = (bill = []) => {
 
   y += 4;
 
-  doc.text("Powered by Shathik Bakery", 40, y, {
+  
+  doc.text("insta : mussammil_shathik", 40, y, {
     align: "center",
   });
+
+  
 
   // =========================
   // SAVE
