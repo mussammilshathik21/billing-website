@@ -1,120 +1,235 @@
-/* layout */
-.billing-container {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
+/* PAGE */
+.billing-container{
+  display:flex;
+  gap:20px;
+  padding:20px;
+  align-items:flex-start;
 }
 
-/* left */
-.products-section {
-  flex: 2;
+/* LEFT */
+.products-section{
+  flex:7;
+
+  background:white;
+
+  padding:20px;
+
+  border-radius:15px;
+
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 15px;
+/* RIGHT */
+.bill-section{
+  flex:3;
+
+  background:white;
+
+  padding:20px;
+
+  border-radius:15px;
+
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+
+  position:sticky;
+  top:20px;
 }
 
-/* right */
-.bill-section {
-  flex: 1;
-  background: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+/* TITLES */
+.products-section h3,
+.bill-section h3{
+  margin-bottom:20px;
+  color:#2f3542;
 }
 
-/* table */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+/* GRID */
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:20px;
 }
 
-th, td {
-  padding: 8px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
 }
 
-/* buttons */
-table button {
-  margin: 0 3px;
-  padding: 4px 8px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+/* TABLE HEAD */
+thead{
+  background:#f1f2f6;
 }
 
-table button:first-child {
-  background: #ffa502;
+/* TABLE CELL */
+th,
+td{
+  padding:12px;
+  text-align:center;
+  border-bottom:1px solid #eee;
 }
 
-table button:last-child {
-  background: #ff4757;
-  color: white;
+/* QTY BOX */
+.qty-box{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
 }
 
-/* total */
-.bill-section h2 {
-  margin-top: 10px;
+/* QTY BUTTON */
+.qty-btn{
+  width:28px;
+  height:28px;
+
+  border:none;
+
+  border-radius:6px;
+
+  color:white;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  cursor:pointer;
 }
 
-/* main buttons */
-.btn-group {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
+/* MINUS */
+.minus-btn{
+  background:#ffa502;
 }
 
-.print-btn {
-  flex: 1;
-  padding: 10px;
-  background: #1e90ff;
-  color: white;
-  border-radius: 8px;
+/* PLUS */
+.plus-btn{
+  background:#2ed573;
 }
 
-.pdf-btn {
-  flex: 1;
-  padding: 10px;
-  background: #2ed573;
-  color: white;
-  border-radius: 8px;
+/* REMOVE */
+.remove-btn{
+  background:white;
+
+  color:red;
+
+  border:none;
+
+  border-radius:6px;
+
+  padding:6px 10px;
+
+  cursor:pointer;
+
+  border: 1px solid red;
 }
 
-/* cancel */
-.cancel-btn {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  background: #ff6b81;
-  color: white;
-  border-radius: 8px;
+/* NUMBER */
+.qty-number{
+  font-weight:bold;
+  min-width:20px;
 }
 
-/* 🔥 MOBILE RESPONSIVE */
-@media (max-width: 768px) {
+/* HOVER */
+.minus-btn:hover{
+  background:#ff9500;
+}
 
-  .billing-container {
-    flex-direction: column;
+.plus-btn:hover{
+  background:#20bf6b;
+}
+
+.remove-btn:hover{
+  background:#ff3742;
+}
+
+/* TOTAL */
+.bill-section h2{
+  margin-top:20px;
+  color:#2f3542;
+}
+
+/* BUTTON GROUP */
+.btn-group{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:20px;
+}
+
+/* PDF */
+.pdf-btn{
+  width:100%;
+
+  padding:12px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:#2ed573;
+
+  color:white;
+
+  font-size:16px;
+
+  cursor:pointer;
+}
+
+/* CANCEL */
+.cancel-btn{
+  width:100%;
+
+  padding:12px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:#ff6b81;
+
+  color:white;
+
+  font-size:16px;
+
+  cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  .billing-container{
+    flex-direction:column;
+    padding:10px;
   }
 
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .products-section,
+  .bill-section{
+    width:100%;
+    flex:none;
   }
 
-  .bill-section {
-    margin-top: 20px;
+  .bill-section{
+    position:static;
+    overflow-x:auto;
   }
 
-  table th, table td {
-    font-size: 12px;
-    padding: 6px;
+  .product-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
   }
 
-  .btn-group {
-    flex-direction: column;
+  table{
+    min-width:320px;
+  }
+
+  th,
+  td{
+    font-size:12px;
+    padding:8px 4px;
+  }
+
+  .qty-btn{
+    width:24px;
+    height:24px;
+    font-size:14px;
   }
 }

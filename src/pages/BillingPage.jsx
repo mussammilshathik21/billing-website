@@ -1,126 +1,175 @@
 import { useState, useEffect } from "react";
+
 import "../styles/billing.css";
 
 import ProductCard from "../components/ProductCard";
+
 import productsData from "../data/products";
+
 import { generateInvoice } from "../utils/pdf";
 
-export default function BillingPage() {
+export default function BillingPage({
+  search
+}) {
+
   const [products, setProducts] = useState([]);
+
   const [bill, setBill] = useState([]);
 
   // LOAD PRODUCTS
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("products"));
 
-    setProducts(saved && saved.length ? saved : productsData);
+    const saved = JSON.parse(
+      localStorage.getItem("products")
+    );
+
+    setProducts(
+      saved && saved.length
+        ? saved
+        : productsData
+    );
+
   }, []);
 
-  // ➕ ADD PRODUCT
+  // ADD PRODUCT
   const addToBill = (product) => {
-    const exists = bill.find((i) => i.id === product.id);
+
+    const exists = bill.find(
+      (i) => i.id === product.id
+    );
 
     if (exists) {
+
       setBill(
         bill.map((i) =>
           i.id === product.id
-            ? { ...i, qty: i.qty + 1 }
+            ? {
+                ...i,
+                qty: i.qty + 1
+              }
             : i
         )
       );
+
     } else {
-      setBill([...bill, { ...product, qty: 1 }]);
+
+      setBill([
+        ...bill,
+        {
+          ...product,
+          qty:1
+        }
+      ]);
     }
   };
 
-  // ➕ QTY
+  // ➕ INCREASE
   const increaseQty = (id) => {
+
     setBill(
-      bill.map((i) =>
+      bill.map((i)=>
         i.id === id
-          ? { ...i, qty: i.qty + 1 }
+          ? {
+              ...i,
+              qty:i.qty + 1
+            }
           : i
       )
     );
   };
 
-  // ➖ QTY
+  // ➖ DECREASE
   const decreaseQty = (id) => {
+
     setBill(
       bill
-        .map((i) =>
+        .map((i)=>
           i.id === id
-            ? { ...i, qty: i.qty - 1 }
+            ? {
+                ...i,
+                qty:i.qty - 1
+              }
             : i
         )
-        .filter((i) => i.qty > 0)
+        .filter((i)=> i.qty > 0)
     );
   };
 
-  // ❌ REMOVE ITEM
+  // ❌ REMOVE
   const removeItem = (id) => {
-    setBill(bill.filter((i) => i.id !== id));
+
+    setBill(
+      bill.filter(
+        (i)=> i.id !== id
+      )
+    );
   };
 
-  // 🗑 CANCEL BILL
+  // 🗑 CANCEL
   const cancelBill = () => {
-    if (confirm("Cancel full bill?")) {
+
+    if(confirm("Cancel full bill?")){
       setBill([]);
     }
   };
 
   // 💰 TOTAL
   const total = bill.reduce(
-    (a, b) => a + b.price * b.qty,
+    (a,b)=>
+      a + b.price * b.qty,
     0
   );
 
-  // 🖨 PRINT
-  const handlePrint = () => {
-    if (!bill.length) return alert("No items");
-
-    window.print();
-  };
-
-  // 📄 PDF + SAVE HISTORY
+  // PDF
   const handlePDF = () => {
-    if (!bill.length) return alert("No items");
+
+    if(!bill.length)
+      return alert("No items");
 
     // subtotal
     const subtotal = bill.reduce(
-      (acc, item) => acc + item.price * item.qty,
+      (acc,item)=>
+        acc + item.price * item.qty,
       0
     );
 
     // GST
     const gstRate = 0;
-    const gst = (subtotal * gstRate) / 100;
 
-    // final total
-    const finalTotal = subtotal + gst;
+    const gst =
+      (subtotal * gstRate) / 100;
 
-    // invoice object
+    // total
+    const finalTotal =
+      subtotal + gst;
+
+    // invoice
     const invoice = {
-      id: Date.now(),
-      date: new Date().toLocaleString(),
-      items: bill,
+      id:Date.now(),
+      date:new Date().toLocaleString(),
+      items:bill,
       subtotal,
       gstRate,
       gst,
-      total: finalTotal,
+      total:finalTotal
     };
 
     // old history
     const oldHistory =
-      JSON.parse(localStorage.getItem("history")) || [];
+      JSON.parse(
+        localStorage.getItem("history")
+      ) || [];
 
-    // save new invoice
+    // save history
     localStorage.setItem(
       "history",
-      JSON.stringify([...oldHistory, invoice])
+      JSON.stringify([
+        ...oldHistory,
+        invoice
+      ])
     );
 
-    // generate PDF
+    // pdf
     generateInvoice(bill);
 
     // clear bill
@@ -128,76 +177,138 @@ export default function BillingPage() {
   };
 
   return (
+
     <div className="billing-container">
 
       {/* LEFT PRODUCTS */}
       <div className="products-section">
-        <h3>Products</h3>
+
+        <h3>
+          Products
+        </h3>
 
         <div className="product-grid">
-          {products.map((p) => (
-            <ProductCard
-              key={p.id}
-              product={p}
-              addToBill={addToBill}
-            />
+
+          {products
+            .filter((p)=>
+              p.name
+                .toLowerCase()
+                .includes(
+                  search.toLowerCase()
+                )
+            )
+            .map((p)=>(
+
+              <ProductCard
+                key={p.id}
+                product={p}
+                addToBill={addToBill}
+              />
+
           ))}
+
         </div>
+
       </div>
 
       {/* RIGHT BILL */}
       <div className="bill-section">
-        <h3>Bill Summary</h3>
+
+        <h3>
+          Bill Summary
+        </h3>
 
         <table>
+
           <thead>
+
             <tr>
               <th>Item</th>
               <th>Qty</th>
               <th>Total</th>
-              <th></th>
+              <th>Remove</th>
             </tr>
+
           </thead>
 
           <tbody>
-            {bill.map((item) => (
+
+            {bill.map((item)=>(
+
               <tr key={item.id}>
-                <td>{item.name}</td>
 
+                {/* NAME */}
                 <td>
-                  <button
-                    onClick={() => decreaseQty(item.id)}
-                  >
-                    -
-                  </button>
-
-                  {item.qty}
-
-                  <button
-                    onClick={() => increaseQty(item.id)}
-                  >
-                    +
-                  </button>
+                  {item.name}
                 </td>
 
+                {/* QTY */}
                 <td>
-                  ₹{item.price * item.qty}
+
+                  <div className="qty-box">
+
+                    <button
+                      className="qty-btn minus-btn"
+                      onClick={() =>
+                        decreaseQty(item.id)
+                      }
+                    >
+                      -
+                    </button>
+
+                    <span className="qty-number">
+                      {item.qty}
+                    </span>
+
+                    <button
+                      className="qty-btn plus-btn"
+                      onClick={() =>
+                        increaseQty(item.id)
+                      }
+                    >
+                      +
+                    </button>
+
+                  </div>
+
                 </td>
 
+                {/* TOTAL */}
                 <td>
+                  ₹{
+                    item.price *
+                    item.qty
+                  }
+                </td>
+
+                {/* REMOVE */}
+                <td>
+
                   <button
-                    onClick={() => removeItem(item.id)}
+                    className="remove-btn"
+                    onClick={() =>
+                      removeItem(item.id)
+                    }
                   >
                     ❌
                   </button>
+
                 </td>
+
               </tr>
+
             ))}
+
           </tbody>
+
         </table>
 
-        <h2>Total: ₹{total}</h2>
+        {/* TOTAL */}
+        <h2>
+          Total : ₹{total}
+        </h2>
 
+        {/* BUTTONS */}
         <div className="btn-group">
 
           <button
@@ -207,15 +318,17 @@ export default function BillingPage() {
             Generate Invoice
           </button>
 
+          <button
+            className="cancel-btn"
+            onClick={cancelBill}
+          >
+            Cancel Bill
+          </button>
+
         </div>
 
-        <button
-          className="cancel-btn"
-          onClick={cancelBill}
-        >
-          Cancel Bill
-        </button>
       </div>
+
     </div>
   );
 }

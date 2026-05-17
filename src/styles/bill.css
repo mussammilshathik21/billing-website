@@ -1,28 +1,119 @@
-/* qty buttons */
-table button {
-  margin: 0 4px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+/* CONTAINER */
+.bill-table-container{
+  width:100%;
+  overflow-x:auto;
 }
 
-/* remove button */
-table td button:last-child {
-  background: #ff4757;
-  color: white;
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
 }
 
-/* cancel bill */
-.cancel-btn {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  background: #ff6b81;
-  color: white;
-  border-radius: 8px;
+/* HEAD */
+thead{
+  background:#2f3542;
+  color:white;
 }
 
-.cancel-btn:hover {
-  background: #ff4757;
+/* CELL */
+th,
+td{
+  padding:12px;
+  text-align:center;
+  border-bottom:1px solid #eee;
+}
+
+/* PRODUCT NAME */
+.product-name{
+  font-weight:600;
+  color:#2f3542;
+}
+
+/* QTY BOX */
+.qty-box{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+
+/* BUTTONS */
+.qty-box button,
+.remove-btn{
+  border:none;
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* MINUS */
+.minus-btn{
+  background:#ffa502;
+  color:white;
+}
+
+/* PLUS */
+.plus-btn{
+  background:#2ed573;
+  color:white;
+}
+
+/* REMOVE */
+.remove-btn{
+  background:#ff4757;
+  color:white;
+}
+
+/* HOVER */
+.minus-btn:hover{
+  background:#ff7f00;
+}
+
+.plus-btn:hover{
+  background:#20bf6b;
+}
+
+.remove-btn:hover{
+  background:#ff3742;
+}
+
+/* EMPTY */
+.empty{
+  padding:20px;
+  color:gray;
+}
+
+/* TOTAL */
+.grand-total{
+  text-align:right;
+  margin-top:15px;
+  color:#2f3542;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  th,
+  td{
+    padding:8px;
+    font-size:12px;
+  }
+
+  .qty-box{
+    gap:4px;
+  }
+
+  .qty-box button,
+  .remove-btn{
+    padding:4px 8px;
+  }
+
+  .grand-total{
+    font-size:20px;
+  }
 }

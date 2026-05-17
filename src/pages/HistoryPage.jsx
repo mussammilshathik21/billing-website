@@ -59,14 +59,16 @@ export default function HistoryPage() {
                     <td>₹{item.price * item.qty}</td>
                   </tr>
                 ))}
+                
               </tbody>
-            </table>
-
-            <div className="history-summary">
+              <div className="history-summary">
               <p>Subtotal: ₹{bill.subtotal}</p>
               <p>GST ({bill.gstRate}%): ₹{bill.gst}</p>
               <h3>Total: ₹{bill.total}</h3>
             </div>
+            </table>
+
+            
 
           </div>
         ))

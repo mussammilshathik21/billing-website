@@ -18,7 +18,9 @@
   margin-bottom: 10px;
 }
 
-.history-summary {
-  text-align: right;
+.history-summary p h3 {
+  text-align: left;
   margin-top: 10px;
+  
+  
 }
